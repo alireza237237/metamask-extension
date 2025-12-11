@@ -8,7 +8,11 @@ import {
 import { toChecksumHexAddress } from '@metamask/controller-utils';
 import { type CaipAssetType } from '@metamask/utils';
 import { MultichainNetworks } from './multichain/networks';
-import { CHAIN_ID_TO_NETWORK_IMAGE_URL_MAP, CHAIN_IDS, NETWORK_TO_NAME_MAP } from './network';
+import {
+  CHAIN_ID_TO_NETWORK_IMAGE_URL_MAP,
+  CHAIN_IDS,
+  NETWORK_TO_NAME_MAP,
+} from './network';
 
 export const ALLOWED_MULTICHAIN_BRIDGE_CHAIN_IDS = [
   MultichainNetworks.SOLANA,
@@ -75,7 +79,7 @@ export const BRIDGE_CHAIN_ID_TO_NETWORK_IMAGE_MAP: Record<
     return acc;
   },
   {} as Record<(typeof ALLOWED_BRIDGE_CHAIN_IDS_IN_CAIP)[number], string>,
-    );
+);
 
 export const NETWORK_TO_SHORT_NETWORK_NAME_MAP: Record<
   AllowedBridgeChainIds,
