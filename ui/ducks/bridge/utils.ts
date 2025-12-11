@@ -199,10 +199,7 @@ const toAssetIdOrThrow = (chainId: number | string, address = '') => {
 
 export const toBridgeToken = (
   payload: TokenPayload['payload'],
-): BridgeToken | null => {
-  if (!payload) {
-    return null;
-  }
+): BridgeToken => {
   const caipChainId = formatChainIdToCaip(payload.chainId);
   const assetId =
     payload.assetId ?? toAssetIdOrThrow(payload.chainId, payload.address);
