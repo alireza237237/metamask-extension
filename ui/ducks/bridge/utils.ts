@@ -208,6 +208,7 @@ export const toBridgeToken = (
     payload.assetId ?? toAssetIdOrThrow(payload.chainId, payload.address);
   return {
     ...payload,
+    name: payload.name ?? payload.symbol,
     balance: payload.balance ?? '0',
     chainId: caipChainId,
     image: (payload.image || getAssetImageUrl(assetId, caipChainId)) ?? '',
