@@ -210,7 +210,6 @@ export const toBridgeToken = (
     chainId: caipChainId,
     image: (payload.image || getAssetImageUrl(assetId, caipChainId)) ?? '',
     assetId,
-    name: payload.name ?? payload.symbol,
     tokenFiatAmount: payload.tokenFiatAmount,
     accountType: payload.accountType,
   };
