@@ -51,6 +51,15 @@ export const isTronEnergyOrBandwidthResource = (
 };
 
 /**
+ *
+ * @param chainId - The chain ID to convert to a hex string
+ * @returns The hex string representation of the chain ID. Undefined if the chain ID is not EVM.
+ */
+export const getMaybeHexChainId = (chainId: string) => {
+  return isNonEvmChainId(chainId) ? chainId : formatChainIdToHex(chainId);
+};
+
+/**
  * Safely gets the native token name for a given chainId.
  * Returns undefined if the chainId is not supported by the bridge controller.
  *
