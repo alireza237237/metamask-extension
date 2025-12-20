@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   formatChainIdToCaip,
+  formatChainIdToHex,
   isNativeAddress,
+  isNonEvmChainId,
 } from '@metamask/bridge-controller';
 import { getAccountLink } from '@metamask/etherscan-link';
-import { parseCaipAssetType } from '@metamask/utils';
+import { type CaipChainId, parseCaipAssetType } from '@metamask/utils';
 import {
   Text,
   TextField,
   TextFieldType,
   ButtonLink,
 } from '../../../components/component-library';
-import { AssetPicker } from '../../../components/multichain/asset-picker-amount/asset-picker';
-import { TabName } from '../../../components/multichain/asset-picker-amount/asset-picker-modal/asset-picker-modal-tabs';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { getCurrentCurrency } from '../../../ducks/metamask/metamask';
 import {
@@ -39,35 +39,31 @@ import { shortenString } from '../../../helpers/utils/util';
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
 import { MINUTE } from '../../../../shared/constants/time';
 import { getIntlLocale } from '../../../ducks/locale/locale';
-import {
-  MULTICHAIN_NETWORK_BLOCK_EXPLORER_FORMAT_URLS_MAP,
-  MultichainNetworks,
-} from '../../../../shared/constants/multichain/networks';
+import { MULTICHAIN_NETWORK_BLOCK_EXPLORER_FORMAT_URLS_MAP } from '../../../../shared/constants/multichain/networks';
 import { formatBlockExplorerAddressUrl } from '../../../../shared/lib/multichain/networks';
+import { CAIP_CHAINID_DEFAULT_BLOCK_EXPLORER_URL_MAP } from '../../../../shared/constants/common';
 import type { BridgeToken } from '../../../ducks/bridge/types';
-import { getMultichainCurrentChainId } from '../../../selectors/multichain';
 import { SelectedAssetButton } from './components/bridge-asset-picker/selected-asset-button';
+import { BridgeAssetPicker } from './components/bridge-asset-picker';
 
 export const BridgeInputGroup = ({
   header,
   token,
   onAssetChange,
   onAmountChange,
-  networkProps,
-  isTokenListLoading,
-  customTokenListGenerator,
+  networks,
   amountFieldProps,
   amountInFiat,
   onMaxButtonClick,
-  isMultiselectEnabled,
   onBlockExplorerClick,
   buttonProps,
+  accountAddress,
+  excludedAssetId,
   containerProps = {},
-  isDestinationToken = false,
 }: {
   amountInFiat?: string;
   onAmountChange?: (value: string) => void;
-  token: BridgeToken | null;
+  token: BridgeToken;
   buttonProps: { testId: string };
   amountFieldProps: Pick<
     React.ComponentProps<typeof TextField>,
@@ -75,16 +71,11 @@ export const BridgeInputGroup = ({
   >;
   onMaxButtonClick?: (value: string) => void;
   onBlockExplorerClick?: (token: BridgeToken) => void;
+  networks: { chainId: CaipChainId }[];
   containerProps?: React.ComponentProps<typeof Column>;
-  isDestinationToken?: boolean;
 } & Pick<
-  React.ComponentProps<typeof AssetPicker>,
-  | 'networkProps'
-  | 'header'
-  | 'customTokenListGenerator'
-  | 'onAssetChange'
-  | 'isTokenListLoading'
-  | 'isMultiselectEnabled'
+  React.ComponentProps<typeof BridgeAssetPicker>,
+  'header' | 'onAssetChange' | 'accountAddress' | 'excludedAssetId'
 >) => {
   const t = useI18nContext();
 
@@ -94,13 +85,11 @@ export const BridgeInputGroup = ({
   const currency = useSelector(getCurrentCurrency);
   const locale = useSelector(getIntlLocale);
 
-  const currentChainId = useSelector(getMultichainCurrentChainId);
-  const selectedChainId = networkProps?.network?.chainId ?? currentChainId;
-
+  const selectedChainId = token?.chainId;
   const [, handleCopy] = useCopyToClipboard(MINUTE);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
-
+  const { assetReference } = token ? parseCaipAssetType(token.assetId) : {};
   const balanceAmount = useSelector(getFromTokenBalance);
 
   const isAmountReadOnly =
@@ -122,13 +111,11 @@ export const BridgeInputGroup = ({
   }, []);
 
   const handleAddressClick = () => {
-    if (token && selectedChainId) {
+    if (token && selectedChainId && assetReference) {
       const caipChainId = formatChainIdToCaip(selectedChainId);
-      const isSolana = caipChainId === MultichainNetworks.SOLANA;
-      const { assetReference } = parseCaipAssetType(token.assetId);
 
       let blockExplorerUrl = '';
-      if (isSolana) {
+      if (isNonEvmChainId(selectedChainId)) {
         const blockExplorerUrls =
           MULTICHAIN_NETWORK_BLOCK_EXPLORER_FORMAT_URLS_MAP[caipChainId];
         if (blockExplorerUrls) {
@@ -139,13 +126,13 @@ export const BridgeInputGroup = ({
         }
       } else {
         const explorerUrl =
-          networkProps?.network?.blockExplorerUrls?.[
-            networkProps?.network?.defaultBlockExplorerUrlIndex ?? 0
+          CAIP_CHAINID_DEFAULT_BLOCK_EXPLORER_URL_MAP[
+            formatChainIdToCaip(token.chainId)
           ];
         if (explorerUrl) {
           blockExplorerUrl = getAccountLink(
             assetReference,
-            selectedChainId,
+            formatChainIdToHex(selectedChainId),
             {
               blockExplorerUrl: explorerUrl,
             },
@@ -160,6 +147,11 @@ export const BridgeInputGroup = ({
       }
     }
   };
+  const chainIds = useMemo(
+    () => networks.map((network) => network.chainId),
+    [networks],
+  );
+  const [isAssetPickerOpen, setIsAssetPickerOpen] = useState(false);
 
   return (
     <Column gap={1} {...containerProps}>
@@ -224,29 +216,23 @@ export const BridgeInputGroup = ({
           }}
           {...amountFieldProps}
         />
-        <AssetPicker
+        <BridgeAssetPicker
+          excludedAssetId={excludedAssetId}
+          selectedAsset={token}
           header={header}
-          visibleTabs={[TabName.TOKENS]}
-          asset={(token as never) ?? undefined}
-          onAssetChange={onAssetChange}
-          networkProps={networkProps}
-          customTokenListGenerator={customTokenListGenerator}
-          isTokenListLoading={isTokenListLoading}
-          isMultiselectEnabled={isMultiselectEnabled}
-          isDestinationToken={isDestinationToken}
-        >
-          {(onClickHandler) =>
-            token ? (
-              <SelectedAssetButton
-                onClick={onClickHandler}
-                asset={token as never}
-                data-testid={buttonProps.testId}
-              />
-            ) : (
-              <></>
-            )
-          }
-        </AssetPicker>
+          isOpen={isAssetPickerOpen}
+          onClose={() => setIsAssetPickerOpen(false)}
+          onAssetChange={(asset) => {
+            onAssetChange?.(asset);
+          }}
+          chainIds={chainIds}
+          accountAddress={accountAddress}
+        />
+        <SelectedAssetButton
+          onClick={() => setIsAssetPickerOpen(true)}
+          asset={token}
+          data-testid={buttonProps.testId}
+        />
       </Row>
 
       <Row justifyContent={JustifyContent.spaceBetween} style={{ height: 24 }}>
@@ -295,7 +281,7 @@ export const BridgeInputGroup = ({
         {isAmountReadOnly &&
           token &&
           selectedChainId &&
-          !isNativeAddress(token.address) && (
+          !isNativeAddress(assetReference) && (
             <Text
               display={Display.Flex}
               gap={1}
@@ -310,7 +296,7 @@ export const BridgeInputGroup = ({
                 textDecoration: isAmountReadOnly ? 'underline' : 'none',
               }}
             >
-              {shortenString(token.address, {
+              {shortenString(assetReference, {
                 truncatedCharLimit: 11,
                 truncatedStartChars: 4,
                 truncatedEndChars: 4,
