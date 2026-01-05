@@ -21,8 +21,8 @@ const initialState: BridgeState = {
   toToken: null,
   fromTokenInputValue: null,
   fromTokenExchangeRate: null,
-  fromTokenBalance: '0',
-  fromNativeBalance: '0',
+  fromTokenBalance: null,
+  fromNativeBalance: null,
   sortOrder: SortOrder.COST_ASC,
   selectedQuote: null,
   wasTxDeclined: false,
@@ -90,11 +90,9 @@ export const setEVMSrcNativeBalance = createAsyncThunk(
 
 export const setEVMSrcTokenBalance = createAsyncThunk(
   'bridge/setEVMSrcTokenBalance',
-  async ({
-    assetId,
-    ...rest
-  }: Parameters<typeof getBalanceAmount>[0] & { assetId: CaipAssetType }) =>
-    await getBalanceAmount(rest),
+  async (
+    token: Parameters<typeof getBalanceAmount>[0] & { assetId: CaipAssetType },
+  ) => await getBalanceAmount(token),
 );
 
 const bridgeSlice = createSlice({
@@ -103,10 +101,10 @@ const bridgeSlice = createSlice({
   reducers: {
     setFromToken: (state, { payload }: TokenPayload) => {
       state.fromToken = toBridgeToken(payload);
-      state.fromTokenExchangeRate = null;
-      state.fromTokenBalance = '0';
-      state.fromNativeBalance = '0';
-      state.fromTokenInputValue = null;
+      state.fromTokenBalance = initialState.fromTokenBalance;
+      state.fromTokenExchangeRate = initialState.fromTokenExchangeRate;
+      state.fromNativeBalance = initialState.fromNativeBalance;
+      state.fromTokenInputValue = initialState.fromTokenInputValue;
       // Unset toToken if it's the same as the fromToken
       if (
         state.fromToken?.assetId &&

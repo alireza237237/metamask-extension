@@ -97,6 +97,7 @@ import { useEnableMissingNetwork } from '../hooks/useEnableMissingNetwork';
 import { BridgeInputGroup } from './bridge-input-group';
 import { PrepareBridgePageFooter } from './prepare-bridge-page-footer';
 import { DestinationAccountPickerModal } from './components/destination-account-picker-modal';
+import { BRIDGE_ONLY_CHAINS } from '../../../../shared/constants/bridge';
 
 const PrepareBridgePage = ({
   onOpenSettings,
@@ -551,11 +552,16 @@ const PrepareBridgePage = ({
             }
             token={toToken}
             excludedAssetId={fromToken.assetId}
+            // If the fromChain is a bridge-only chain, disable it in the toChain picker
+            disabledChainId={
+              fromChain?.chainId &&
+              BRIDGE_ONLY_CHAINS.includes(fromChain.chainId)
+                ? fromChain.chainId
+                : undefined
+            }
             onAssetChange={(token) => {
               dispatch(setToToken(token));
             }}
-            // TODO enable missing network
-            // TODO disable network as needed
             networks={toChains}
             amountInFiat={
               activeQuote?.toTokenAmount?.valueInCurrency ?? undefined

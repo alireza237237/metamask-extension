@@ -280,27 +280,21 @@ describe('Bridge selectors', () => {
         [
           {
             "chainId": "eip155:1",
-            "hexChainId": undefined,
           },
           {
             "chainId": "eip155:56",
-            "hexChainId": undefined,
           },
           {
             "chainId": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
-            "hexChainId": undefined,
           },
           {
             "chainId": "eip155:42161",
-            "hexChainId": undefined,
           },
           {
             "chainId": "eip155:10",
-            "hexChainId": undefined,
           },
           {
             "chainId": "eip155:59144",
-            "hexChainId": undefined,
           },
         ]
       `);
@@ -334,23 +328,18 @@ describe('Bridge selectors', () => {
         [
           {
             "chainId": "eip155:59144",
-            "hexChainId": "0xe708",
           },
           {
             "chainId": "eip155:42161",
-            "hexChainId": "0xa4b1",
           },
           {
             "chainId": "eip155:56",
-            "hexChainId": "0x38",
           },
           {
             "chainId": "eip155:10",
-            "hexChainId": "0xa",
           },
           {
             "chainId": "eip155:137",
-            "hexChainId": "0x89",
           },
         ]
       `);

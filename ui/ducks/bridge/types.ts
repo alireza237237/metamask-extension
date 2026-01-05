@@ -30,8 +30,8 @@ export type BridgeState = {
   toToken: BridgeToken | null;
   fromTokenInputValue: string | null;
   fromTokenExchangeRate: number | null; // Exchange rate from selected token to the default currency (can be fiat or crypto)
-  fromNativeBalance: string; // User's balance for the native token of the selected fromChain(EVM)
-  fromTokenBalance: string; // User's balance for the selected token (EVM)
+  fromNativeBalance: string | null; // User's balance for the native token of the selected fromChain(EVM)
+  fromTokenBalance: string | null; // User's balance for the selected token (EVM)
   sortOrder: SortOrder;
   selectedQuote: (QuoteResponse & QuoteMetadata) | null; // Alternate quote selected by user. When quotes refresh, the best match will be activated.
   wasTxDeclined: boolean; // Whether the user declined the transaction. Relevant for hardware wallets.

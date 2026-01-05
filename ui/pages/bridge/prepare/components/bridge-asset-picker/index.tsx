@@ -49,6 +49,7 @@ export const BridgeAssetPicker = ({
   header,
   selectedAsset,
   accountAddress,
+  disabledChainId,
   ...assetListProps
 }: {
   isOpen: boolean;
@@ -56,7 +57,10 @@ export const BridgeAssetPicker = ({
   onClose: () => void;
   header: string;
   selectedAsset: BridgeToken;
-} & Pick<React.ComponentProps<typeof NetworkPicker>, 'chainIds'> &
+} & Pick<
+  React.ComponentProps<typeof NetworkPicker>,
+  'chainIds' | 'disabledChainId'
+> &
   Pick<
     React.ComponentProps<typeof BridgeAssetList>,
     'onAssetChange' | 'excludedAssetId'
@@ -190,6 +194,7 @@ export const BridgeAssetPicker = ({
               isOpen={isNetworkPickerOpen}
               chainIds={chainIds}
               selectedChainId={selectedChainId}
+              disabledChainId={disabledChainId}
               onNetworkChange={(chainId) => {
                 setSelectedChainId(chainId);
                 setIsNetworkPickerOpen(false);

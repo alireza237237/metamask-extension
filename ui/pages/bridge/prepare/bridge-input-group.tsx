@@ -7,7 +7,7 @@ import {
   isNonEvmChainId,
 } from '@metamask/bridge-controller';
 import { getAccountLink } from '@metamask/etherscan-link';
-import { type CaipChainId, parseCaipAssetType } from '@metamask/utils';
+import { parseCaipAssetType } from '@metamask/utils';
 import {
   Text,
   TextField,
@@ -42,7 +42,7 @@ import { getIntlLocale } from '../../../ducks/locale/locale';
 import { MULTICHAIN_NETWORK_BLOCK_EXPLORER_FORMAT_URLS_MAP } from '../../../../shared/constants/multichain/networks';
 import { formatBlockExplorerAddressUrl } from '../../../../shared/lib/multichain/networks';
 import { CAIP_CHAINID_DEFAULT_BLOCK_EXPLORER_URL_MAP } from '../../../../shared/constants/common';
-import type { BridgeToken } from '../../../ducks/bridge/types';
+import type { BridgeNetwork, BridgeToken } from '../../../ducks/bridge/types';
 import { SelectedAssetButton } from './components/bridge-asset-picker/selected-asset-button';
 import { BridgeAssetPicker } from './components/bridge-asset-picker';
 
@@ -59,6 +59,7 @@ export const BridgeInputGroup = ({
   buttonProps,
   accountAddress,
   excludedAssetId,
+  disabledChainId,
   containerProps = {},
 }: {
   amountInFiat?: string;
@@ -71,11 +72,15 @@ export const BridgeInputGroup = ({
   >;
   onMaxButtonClick?: (value: string) => void;
   onBlockExplorerClick?: (token: BridgeToken) => void;
-  networks: { chainId: CaipChainId }[];
+  networks: BridgeNetwork[];
   containerProps?: React.ComponentProps<typeof Column>;
 } & Pick<
   React.ComponentProps<typeof BridgeAssetPicker>,
-  'header' | 'onAssetChange' | 'accountAddress' | 'excludedAssetId'
+  | 'header'
+  | 'onAssetChange'
+  | 'accountAddress'
+  | 'excludedAssetId'
+  | 'disabledChainId'
 >) => {
   const t = useI18nContext();
 
@@ -218,6 +223,7 @@ export const BridgeInputGroup = ({
         />
         <BridgeAssetPicker
           excludedAssetId={excludedAssetId}
+          disabledChainId={disabledChainId}
           selectedAsset={token}
           header={header}
           isOpen={isAssetPickerOpen}

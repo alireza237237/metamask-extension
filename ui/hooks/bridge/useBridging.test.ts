@@ -208,8 +208,8 @@ describe('useBridging', () => {
         jest
           .spyOn(bridgeSelectors, 'getFromChains')
           .mockReturnValueOnce([
-            { chainId: CHAIN_IDS.MAINNET } as unknown as NetworkConfiguration,
-            { chainId: CHAIN_IDS.OPTIMISM } as unknown as NetworkConfiguration,
+            { chainId: formatChainIdToCaip(CHAIN_IDS.MAINNET) },
+            { chainId: formatChainIdToCaip(CHAIN_IDS.OPTIMISM) },
           ]);
         const { result } = renderUseBridging({
           metamask: {

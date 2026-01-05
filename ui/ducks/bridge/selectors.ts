@@ -366,8 +366,6 @@ const getBIP44DefaultToChainId = createSelector(
   },
 );
 
-// If the user has selected a toToken, return it
-// Otherwise, return the default token for the fromChain.
 export const getToToken = createSelector(
   [
     getFromToken,
@@ -375,15 +373,17 @@ export const getToToken = createSelector(
     getBIP44DefaultToChainId,
   ],
   (fromToken, toToken, defaultToChainId) => {
+    // If the user has selected a toToken, return it
     if (toToken) {
       return toToken;
     }
     // Bitcoin only has 1 asset, so we can use the default asset from LD
-    if (isBitcoinChainId(fromToken.chainId) && defaultToChainId) {
-      return toBridgeToken(getNativeAssetForChainId(defaultToChainId));
-    }
-    // Otherwise, determine the default token to use based on fromToken and toChain
-    return toBridgeToken(getDefaultToToken(defaultToChainId, fromToken));
+    const targetChainId =
+      isBitcoinChainId(fromToken.chainId) && defaultToChainId
+        ? defaultToChainId
+        : formatChainIdToCaip(fromToken.chainId);
+    // Otherwise, determine the default token to use based on the fromToken
+    return toBridgeToken(getDefaultToToken(targetChainId, fromToken));
   },
 );
 
