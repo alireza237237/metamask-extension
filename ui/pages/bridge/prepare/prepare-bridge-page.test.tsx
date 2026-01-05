@@ -6,7 +6,6 @@ import * as reactRouterUtils from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
 import { toEvmCaipChainId } from '@metamask/multichain-network-controller';
 import { renderWithProvider } from '../../../../test/lib/render-helpers-navigate';
-import { toAssetId } from '../../../../shared/lib/asset-utils';
 import configureStore from '../../../store/store';
 import { createBridgeMockStore } from '../../../../test/data/bridge/mock-bridge-store';
 import { CHAIN_IDS } from '../../../../shared/constants/network';
@@ -102,16 +101,10 @@ describe('PrepareBridgePage', () => {
       featureFlagOverrides: {
         bridgeConfig: {
           support: true,
-          chains: {
-            [CHAIN_IDS.MAINNET]: {
-              isActiveSrc: true,
-              isActiveDest: false,
-            },
-            [CHAIN_IDS.LINEA_MAINNET]: {
-              isActiveSrc: true,
-              isActiveDest: true,
-            },
-          },
+          chainRanking: [
+            { chainId: formatChainIdToCaip(CHAIN_IDS.MAINNET) },
+            { chainId: formatChainIdToCaip(CHAIN_IDS.LINEA_MAINNET) },
+          ],
         },
       },
       bridgeSliceOverrides: {

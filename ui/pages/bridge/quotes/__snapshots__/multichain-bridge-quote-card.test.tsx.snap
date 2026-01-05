@@ -374,7 +374,7 @@ exports[`MultichainBridgeQuoteCard should render gas sponsored text when gasSpon
     <p
       class="mm-box mm-text mm-text--body-xs mm-box--color-text-alternative"
     >
-      Approves token for bridge.
+      Approves token for swap.
     </p>
     <div
       class="mm-box"
@@ -560,7 +560,7 @@ exports[`MultichainBridgeQuoteCard should render the recommended quote (no MM fe
     <p
       class="mm-box mm-text mm-text--body-xs mm-box--color-text-alternative"
     >
-      Approves token for bridge.
+      Approves token for swap.
     </p>
     <div
       class="mm-box"

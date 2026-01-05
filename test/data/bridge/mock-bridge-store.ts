@@ -311,7 +311,6 @@ export const createBridgeMockStore = ({
       },
       currencyRates: {
         ETH: { conversionRate: 2524.25 },
-        usd: { conversionRate: 1 },
       },
       marketData: {
         '0x1': {
