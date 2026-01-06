@@ -75,7 +75,7 @@ import MetamaskController, {
 } from './metamask-controller';
 import getObjStructure from './lib/getObjStructure';
 import setupEnsIpfsResolver from './lib/ens-ipfs/setup';
-import { getPlatform, shouldEmitDappViewedEvent } from './lib/util';
+import { getPlatform, shouldEmitDappViewedEvent, isWebUrl } from './lib/util';
 import { createOffscreen } from './offscreen';
 import { setupMultiplex } from './lib/stream-utils';
 import rawFirstTimeState from './first-time-state';
@@ -1890,19 +1890,20 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
     const tabInfo = await browser.tabs.get(tabId);
     const { id, title, url, favIconUrl } = tabInfo;
 
-    if (!url) {
+    // If no URL or not a web URL (e.g., chrome://newtab, about:blank), clear the active tab
+    if (!url || !isWebUrl(url)) {
+      controller.appStateController.clearAppActiveTab();
       return {};
     }
 
     const { origin, protocol, host, href } = new URL(url);
 
-    // Skip if no origin, null origin, or extension pages
+    // Skip extension pages but still allow other web URLs
     if (
-      !origin ||
-      origin === 'null' ||
       origin.startsWith('chrome-extension://') ||
       origin.startsWith('moz-extension://')
     ) {
+      controller.appStateController.clearAppActiveTab();
       return {};
     }
 
@@ -1933,30 +1934,40 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
   return {};
 });
 
-browser.tabs.onUpdated.addListener(async (tabId) => {
+browser.tabs.onUpdated.addListener(async (_tabId, changeInfo, tab) => {
   // Wait for controller to be initialized
   await isInitialized;
   if (!controller) {
     return {};
   }
 
-  try {
-    const tabInfo = await browser.tabs.get(tabId);
-    const { id, title, url, favIconUrl } = tabInfo;
+  // Only process if this tab is the active tab in its window
+  if (!tab.active) {
+    return {};
+  }
 
-    if (!url) {
+  // Only process when the URL changes (not for other updates like title, favicon)
+  if (!changeInfo.url) {
+    return {};
+  }
+
+  try {
+    const { id, title, url, favIconUrl } = tab;
+
+    // If not a web URL (e.g., chrome://newtab, about:blank), clear the active tab
+    if (!url || !isWebUrl(url)) {
+      controller.appStateController.clearAppActiveTab();
       return {};
     }
 
     const { origin, protocol, host, href } = new URL(url);
 
-    // Skip if no origin, null origin, or extension pages
+    // Skip extension pages
     if (
-      !origin ||
-      origin === 'null' ||
       origin.startsWith('chrome-extension://') ||
       origin.startsWith('moz-extension://')
     ) {
+      controller.appStateController.clearAppActiveTab();
       return {};
     }
 

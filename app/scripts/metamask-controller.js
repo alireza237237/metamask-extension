@@ -3250,6 +3250,8 @@ export default class MetamaskController extends EventEmitter {
         appStateController.setPna25Acknowledged.bind(appStateController),
       setAppActiveTab:
         appStateController.setAppActiveTab.bind(appStateController),
+      clearAppActiveTab:
+        appStateController.clearAppActiveTab.bind(appStateController),
       setDefaultSubscriptionPaymentOptions:
         appStateController.setDefaultSubscriptionPaymentOptions.bind(
           appStateController,
