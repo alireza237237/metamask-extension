@@ -74,6 +74,43 @@ describe('Deep link utils', () => {
       );
     });
 
+    describe('createdAt validation', () => {
+      const invalidCreatedAtValues = [
+        ['undefined', undefined],
+        ['null', null],
+        ['string', '1234567890'],
+        ['NaN', NaN],
+        ['Infinity', Infinity],
+        ['-Infinity', -Infinity],
+        ['object', { time: 1234567890 }],
+        ['boolean', true],
+        ['array', []],
+      ];
+
+      // @ts-expect-error '.each' is missing from type definitions
+      it.each(invalidCreatedAtValues)(
+        'returns null when createdAt is %s',
+        async (_description: unknown, invalidValue: unknown) => {
+          const mockData = {
+            createdAt: invalidValue,
+            referringLink: 'https://link.metamask.io/deep-link',
+          };
+
+          (mockBrowser.cookies.get as jest.Mock).mockResolvedValue({
+            name: 'deferred_deeplink',
+            value: JSON.stringify(mockData),
+          });
+
+          const result = await getDeferredDeepLinkFromCookie();
+
+          expect(result).toBeNull();
+          expect(logErrorSpy).toHaveBeenCalledWith(
+            expect.stringContaining('Invalid createdAt'),
+          );
+        },
+      );
+    });
+
     it('resolves null after timeout if cookie promise never resolves', async () => {
       jest.useFakeTimers();
 

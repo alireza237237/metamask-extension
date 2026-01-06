@@ -49,6 +49,16 @@ export function getDeferredDeepLinkFromCookie(): Promise<DeferredDeepLink | null
               return;
             }
 
+            // Validate if createdAt is a valid number (timestamp)
+            if (
+              typeof cookieData.createdAt !== 'number' ||
+              !Number.isFinite(cookieData.createdAt)
+            ) {
+              log.error('Invalid createdAt value in deferred_deeplink cookie.');
+              resolve(null);
+              return;
+            }
+
             resolve({
               createdAt: cookieData.createdAt,
               referringLink: cookieData.referringLink,
