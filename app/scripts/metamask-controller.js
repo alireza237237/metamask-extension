@@ -357,7 +357,14 @@ import {
 import {
   BackendWebSocketServiceInit,
   AccountActivityServiceInit,
+  BackendApiClientInit,
 } from './controller-init/core-backend';
+import {
+  AccountsApiDataSourceInit,
+  BackendWebsocketDataSourceInit,
+  RpcDataSourceInit,
+  SnapDataSourceInit,
+} from './controller-init/assets';
 import { AuthenticationControllerInit } from './controller-init/identity/authentication-controller-init';
 import { UserStorageControllerInit } from './controller-init/identity/user-storage-controller-init';
 import { DeFiPositionsControllerInit } from './controller-init/defi-positions/defi-positions-controller-init';
@@ -407,6 +414,7 @@ import { AppStateControllerInit } from './controller-init/app-state-controller-i
 import { PermissionControllerInit } from './controller-init/permission-controller-init';
 import { SubjectMetadataControllerInit } from './controller-init/subject-metadata-controller-init';
 import { NetworkEnablementControllerInit } from './controller-init/assets/network-enablement-controller-init';
+import { AssetsControllerInit } from './controller-init/assets/assets-controller-init';
 import { KeyringControllerInit } from './controller-init/keyring-controller-init';
 import { SnapKeyringBuilderInit } from './controller-init/accounts/snap-keyring-builder-init';
 import { PermissionLogControllerInit } from './controller-init/permission-log-controller-init';
@@ -610,6 +618,11 @@ export default class MetamaskController extends EventEmitter {
       WebSocketService: WebSocketServiceInit,
       BackendWebSocketService: BackendWebSocketServiceInit,
       AccountActivityService: AccountActivityServiceInit,
+      BackendApiClient: BackendApiClientInit,
+      AccountsApiDataSource: AccountsApiDataSourceInit,
+      BackendWebsocketDataSource: BackendWebsocketDataSourceInit,
+      RpcDataSource: RpcDataSourceInit,
+      SnapDataSource: SnapDataSourceInit,
       PPOMController: PPOMControllerInit,
       PhishingController: PhishingControllerInit,
       AccountTrackerController: AccountTrackerControllerInit,
@@ -665,6 +678,7 @@ export default class MetamaskController extends EventEmitter {
       EnsController: EnsControllerInit,
       NameController: NameControllerInit,
       NetworkEnablementController: NetworkEnablementControllerInit,
+      AssetsController: AssetsControllerInit,
       AnnouncementController: AnnouncementControllerInit,
       RewardsDataService: RewardsDataServiceInit,
       RewardsController: RewardsControllerInit,
