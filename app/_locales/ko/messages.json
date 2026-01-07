@@ -443,7 +443,7 @@
     "message": "경고"
   },
   "alertAccountTypeUpgradeMessage": {
-    "message": "스마트 계정으로 업그레이드 중입니다. 계정 주소는 그대로 유지되며, 더욱 빠른 속도의 트랜잭션을 더 낮은 네트워크 수수료로 이용할 수 있습니다. $1"
+    "message": "스마트 계정으로 업그레이드 중입니다. 계정 주소는 그대로 유지되며, 더 빠른 트랜잭션과 낮은 네트워크 수수료 혜택을 누릴 수 있습니다. $1"
   },
   "alertAccountTypeUpgradeTitle": {
     "message": "계정 유형"
@@ -3634,7 +3634,7 @@
     "message": "MetaMask 스왑"
   },
   "metamaskSwapsOfflineDescription": {
-    "message": "MetaMask 스와프는 현재 유지 보수 작업을 진행하고 있습니다. 향후에 다시 확인해 주세요."
+    "message": "MetaMask 스왑 기능이 현재 점검 중입니다. 나중에 다시 확인해 주세요."
   },
   "metamaskVersion": {
     "message": "MetaMask 버전"
@@ -6118,6 +6118,9 @@
   },
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "승인하면 12개월 동안 매월 $1이(가) 결제됩니다(총 $2). 지금 전체 금액이 청구되는 것이 아니라 매월 청구됩니다."
+  },
+  "shieldFooterAgreement": {
+    "message": "계속하면 트랜잭션 실드 $1에 동의하는 것이 됩니다"
   },
   "shieldNotCovered": {
     "message": "보장되지 않음"

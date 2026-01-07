@@ -443,7 +443,7 @@
     "message": "Alerte"
   },
   "alertAccountTypeUpgradeMessage": {
-    "message": "Vous passez d'un compte standard à un compte intelligent. Vous conserverez la même adresse de compte tout en bénéficiant de transactions plus rapides et de frais de réseau moins élevés. $1"
+    "message": "Vous passez d’un compte standard à un compte intelligent. Vous conserverez la même adresse de compte tout en bénéficiant de transactions plus rapides et de frais de réseau moins élevés. $1"
   },
   "alertAccountTypeUpgradeTitle": {
     "message": "Type de compte"
@@ -6112,6 +6112,9 @@
   },
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Autorisez le paiement de $1/mois pendant 12 mois ($2 au total). Vous serez facturé chaque mois, vous n’aurez donc pas à payer la totalité du montant dès maintenant."
+  },
+  "shieldFooterAgreement": {
+    "message": "En continuant, j’accepte les $1 de Transaction Shield"
   },
   "shieldNotCovered": {
     "message": "Non couvert"

@@ -6122,6 +6122,9 @@
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Otorisasi $1/bulan selama 12 bulan (total $2). Anda akan ditagih setiap bulan, bukan jumlah penuh sekarang."
   },
+  "shieldFooterAgreement": {
+    "message": "Dengan melanjutkan, saya menyetujui Transaction Shield $1"
+  },
   "shieldNotCovered": {
     "message": "Tidak tercakup"
   },

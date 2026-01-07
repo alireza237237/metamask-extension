@@ -6122,6 +6122,9 @@
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Ủy quyền $1/tháng trong 12 tháng (tổng cộng $2). Chúng tôi sẽ tính phí hằng tháng, không phải toàn bộ số tiền ngay bây giờ."
   },
+  "shieldFooterAgreement": {
+    "message": "Bằng cách tiếp tục, tôi đồng ý với $1 Lá chắn Giao dịch"
+  },
   "shieldNotCovered": {
     "message": "Không được bảo hiểm"
   },

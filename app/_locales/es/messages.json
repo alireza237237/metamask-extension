@@ -3505,6 +3505,10 @@
   "loginErrorGenericTitle": {
     "message": "Algo salió mal"
   },
+  "loginErrorResetWalletDescription": {
+    "message": "Se produjo un problema al desbloquear. Vuelve a iniciar sesión con $1 y tu contraseña de MetaMask.",
+    "description": "$1 is the social login method"
+  },
   "loginErrorSessionExpiredButton": {
     "message": "Inicia sesión"
   },
@@ -6115,6 +6119,9 @@
   },
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Autoriza $1/mes durante 12 meses ($2 en total). Se te cobrará cada mes, no el monto completo ahora."
+  },
+  "shieldFooterAgreement": {
+    "message": "Al continuar, acepto la protección de transacciones de $1"
   },
   "shieldNotCovered": {
     "message": "No cubierto"

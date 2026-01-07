@@ -6119,6 +6119,9 @@
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Pahintulutan ang $1/buwan sa loob ng 12 buwan ($2 sa kabuuan). Sisingilin ka buwan-buwan, hindi ka sisingilin ng buong halaga ngayon."
   },
+  "shieldFooterAgreement": {
+    "message": "Sa pagpapatuloy, sumasang-ayon ka sa Transaction Shield $1"
+  },
   "shieldNotCovered": {
     "message": "Hindi saklaw"
   },

@@ -6119,6 +6119,9 @@
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Εξουσιοδοτήστε $1/μήνα για 12 μήνες (σύνολο $2). Θα χρεώνεστε μηνιαία, όχι ολόκληρο το ποσό τώρα."
   },
+  "shieldFooterAgreement": {
+    "message": "Συνεχίζοντας, συμφωνώ με το Transaction Shield $1"
+  },
   "shieldNotCovered": {
     "message": "Δεν προστατεύεται"
   },

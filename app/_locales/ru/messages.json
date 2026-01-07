@@ -6122,6 +6122,9 @@
   "shieldEstimatedChangesMonthlyTooltipText": {
     "message": "Разрешите оплату на сумму $1 в месяц на 12 месяцев (итого $2). С вас будет взиматься плата ежемесячно, а не в полном объеме."
   },
+  "shieldFooterAgreement": {
+    "message": "Продолжая, я соглашаюсь с Защитой транзакций $1"
+  },
   "shieldNotCovered": {
     "message": "Не покрывается"
   },
