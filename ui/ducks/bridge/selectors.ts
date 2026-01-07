@@ -579,6 +579,66 @@ export const getFromTokenConversionRate = createSelector(
     const nativeAsset = getNativeAssetForChainId(chainId);
     if (!nativeAsset) {
       return nullResult;
+//     if (fromChain?.chainId && fromToken) {
+//       const nativeAssetId = getNativeAssetForChainId(
+//         fromChain.chainId,
+//       )?.assetId;
+//       const tokenAssetId = toAssetId(fromToken.address, fromChain.chainId);
+//       const nativeToCurrencyRate = isNonEvmChain(fromChain.chainId)
+//         ? Number(
+//             rates?.[fromChain.nativeCurrency?.toLowerCase()]?.conversionRate ??
+//               conversionRates?.[nativeAssetId as CaipAssetType]?.rate ??
+//               null,
+//           )
+//         : (currencyRates[fromChain.nativeCurrency]?.conversionRate ?? null);
+//       const nativeToUsdRate = isNonEvmChain(fromChain.chainId)
+//         ? Number(
+//             rates?.[fromChain.nativeCurrency?.toLowerCase()]
+//               ?.usdConversionRate ??
+//               conversionRates?.[nativeAssetId as CaipAssetType]?.rate ??
+//               null,
+//           )
+//         : (currencyRates[fromChain.nativeCurrency]?.usdConversionRate ?? null);
+
+//       if (isNativeAddress(fromToken.address)) {
+//         return {
+//           valueInCurrency: nativeToCurrencyRate,
+//           usd: nativeToUsdRate,
+//         };
+//       }
+//       // For non-EVM tokens (Solana, Bitcoin, Tron), we use the conversion rates provided by the multichain rates controller
+//       if (isNonEvmChain(fromChain.chainId) && nativeAssetId && tokenAssetId) {
+//         const nativeAssetRate = Number(
+//           conversionRates?.[nativeAssetId as CaipAssetType]?.rate ?? null,
+//         );
+//         const tokenToNativeAssetRate = tokenPriceInNativeAsset(
+//           Number(
+//             conversionRates?.[tokenAssetId]?.rate ??
+//               fromTokenExchangeRate ??
+//               null,
+//           ),
+//           nativeAssetRate,
+//         );
+//         return exchangeRatesFromNativeAndCurrencyRates(
+//           tokenToNativeAssetRate,
+//           Number(nativeToCurrencyRate),
+//           Number(nativeToUsdRate),
+//         );
+//       }
+//       // For EVM tokens, we use the market data to get the exchange rate
+//       const tokenToNativeAssetRate =
+//         exchangeRateFromMarketData(
+//           fromChain.chainId,
+//           fromToken.address,
+//           marketData,
+//         ) ??
+//         tokenPriceInNativeAsset(fromTokenExchangeRate, nativeToCurrencyRate);
+
+//       return exchangeRatesFromNativeAndCurrencyRates(
+//         tokenToNativeAssetRate,
+//         nativeToCurrencyRate,
+//         nativeToUsdRate,
+//       );
     }
     // For non-EVM tokens (Solana, Bitcoin, Tron), we use the conversion rates provided by the multichain rates controller
     if (isNonEvmChain(chainId)) {

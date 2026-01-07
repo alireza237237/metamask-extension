@@ -188,15 +188,6 @@ export const isNetworkAdded = (
   chainId: Hex | CaipChainId,
 ) => availableNetworks.some((network) => network.chainId === chainId);
 
-const toAssetIdOrThrow = (chainId: number | string, address = '') => {
-  const chainIdInCaip = formatChainIdToCaip(chainId);
-  const assetId = toAssetId(address, chainIdInCaip);
-  if (!assetId) {
-    throw new Error(`Failed to create asset ID for: ${address} on ${chainId}`);
-  }
-  return assetId;
-};
-
 export const toBridgeToken = (
   payload: TokenPayload['payload'],
 ): BridgeToken | null => {
@@ -204,13 +195,16 @@ export const toBridgeToken = (
     return null;
   }
   const caipChainId = formatChainIdToCaip(payload.chainId);
-  const assetId =
-    payload.assetId ?? toAssetIdOrThrow(payload.chainId, payload.address);
+  const assetId = payload.assetId ?? toAssetId(payload.address, caipChainId);
+  const imageFromPayload = payload.image ?? payload.iconUrl ?? payload.icon;
   return {
     ...payload,
     balance: payload.balance ?? '0',
     chainId: caipChainId,
-    image: (payload.image || getAssetImageUrl(assetId, caipChainId)) ?? '',
+    image:
+      (assetId
+        ? getAssetImageUrl(assetId, caipChainId)
+        : (imageFromPayload ?? '')) ?? '',
     assetId,
     name: payload.name ?? payload.symbol,
     tokenFiatAmount: payload.tokenFiatAmount,
